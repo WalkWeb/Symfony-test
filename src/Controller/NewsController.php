@@ -17,6 +17,12 @@ class NewsController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('news/index.html.twig');
+        $news = [
+            ['id' => 1, 'title' => 'Новость #1', 'text' => 'Содержимое новости'],
+        ];
+
+        return $this->render('news/index.html.twig', [
+            'news' => $news,
+        ]);
     }
 }
