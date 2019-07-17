@@ -1,3 +1,5 @@
 index:
     path: /
-    controller: App\Controller\NewsController::index
+    controller: App\Controller\MainController::index
+
+

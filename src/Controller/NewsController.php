@@ -15,19 +15,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class NewsController extends AbstractController
 {
     /**
-     * @Route("/", name="news_list")
-     * @Method({"GET"})
-     *
-     * @return Response
-     */
-    public function index(): Response
-    {
-        return $this->render('news/index.html.twig', [
-            'news' => $this->getDoctrine()->getRepository(News::class)->findAll(),
-        ]);
-    }
-
-    /**
      * @Route("/news/create", name="news_create")
      * @Method({"GET", "POST"})
      *
@@ -58,7 +45,7 @@ class NewsController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($news);
             $entityManager->flush();
-            return $this->redirectToRoute('news_list');
+            return $this->redirectToRoute('main');
         }
 
         return $this->render('news/create.html.twig', [
@@ -96,7 +83,7 @@ class NewsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
-            return $this->redirectToRoute('news_list');
+            return $this->redirectToRoute('main');
         }
 
         return $this->render('news/edit.html.twig', [
@@ -134,5 +121,4 @@ class NewsController extends AbstractController
             'news' => $this->getDoctrine()->getRepository(News::class)->find($id),
         ]);
     }
-
 }
