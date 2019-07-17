@@ -54,16 +54,16 @@ class NewsController extends AbstractController
     }
 
     /**
-     * @Route("/news/edit/{id}", name="news_edit")
+     * @Route("/news/edit/{slug}", name="news_edit")
      * @Method({"GET", "POST"})
      *
      * @param Request $request
-     * @param int $id
+     * @param string $slug
      * @return Response
      */
-    public function edit(Request $request, int $id): Response
+    public function edit(Request $request, string $slug): Response
     {
-        $news = $this->getDoctrine()->getRepository(News::class)->find($id);
+        $news = $this->getDoctrine()->getRepository(News::class)->findOneBySlug($slug);
 
         $form = $this->createFormBuilder($news)
             ->add('title', TextType::class, [
@@ -92,14 +92,14 @@ class NewsController extends AbstractController
     }
 
     /**
-     * @Route("/news/destroy/{id}", name="news_destroy")
+     * @Route("/news/destroy/{slug}", name="news_destroy")
      * @Method({"DELETE"})
      *
-     * @param int $id
+     * @param string $slug
      */
-    public function destroy(int $id): void
+    public function destroy(string $slug): void
     {
-        $news = $this->getDoctrine()->getRepository(News::class)->find($id);
+        $news = $this->getDoctrine()->getRepository(News::class)->findOneBySlug($slug);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($news);
@@ -109,16 +109,16 @@ class NewsController extends AbstractController
     }
 
     /**
-     * @Route("/news/{id}", name="news_show")
+     * @Route("/news/{slug}", name="news_show")
      * @Method({"GET"})
      *
-     * @param $id
+     * @param string $slug
      * @return Response
      */
-    public function show(int $id): Response
+    public function show(string $slug): Response
     {
         return $this->render('news/show.html.twig', [
-            'news' => $this->getDoctrine()->getRepository(News::class)->find($id),
+            'news' => $this->getDoctrine()->getRepository(News::class)->findOneBySlug($slug),
         ]);
     }
 }

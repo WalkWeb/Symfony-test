@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\NewsRepository")
@@ -21,6 +22,12 @@ class News
      */
     private $title;
 
+    /**
+     * @var string
+     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
+     */
+    private $slug;
     /**
      * @ORM\Column(type="text")
      */
@@ -48,6 +55,22 @@ class News
     public function setTitle(string $title): void
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string $slug
+     */
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
     }
 
     /**

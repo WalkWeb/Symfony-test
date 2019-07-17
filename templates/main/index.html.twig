@@ -20,9 +20,9 @@
                     <td>{{ new.title }}</td>
                     <td>{{ new.text }}</td>
                     <td>
-                        <a href="/news/{{ new.id }}" class="btn btn-dark">Показать</a>
-                        <a href="/news/edit/{{ new.id }}" class="btn btn-dark">Редактировать</a>
-                        <a href="#" class="btn btn-danger delete-new" data-id="{{ new.id }}">Удалить</a>
+                        <a href="/news/{{ new.slug }}" class="btn btn-dark">Показать</a>
+                        <a href="/news/edit/{{ new.slug }}" class="btn btn-dark">Редактировать</a>
+                        <a href="#" class="btn btn-danger delete-new" data-slug="{{ new.slug }}">Удалить</a>
                     </td>
                 </tr>
             {% endfor %}
