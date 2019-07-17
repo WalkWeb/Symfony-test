@@ -63,6 +63,6 @@ class News
      */
     public function setText(string $text): void
     {
-        $this->title = $text;
+        $this->text = $text;
     }
 }
