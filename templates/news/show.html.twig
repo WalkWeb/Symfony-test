@@ -5,7 +5,16 @@
 {% block body %}
     <h1>{{ news.title }}</h1>
 
-    <p>{{ news.text }}</p>
+    <p>
+        URL: {{ news.slug }}<br />
+        Дата создания: {{ news.created }}
+    </p>
+
+    <hr>
+
+    <p>
+        {{ news.text }}
+    </p>
 
     <p><a href="/">На главную</a></p>
 {% endblock %}

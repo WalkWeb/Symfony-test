@@ -10,6 +10,8 @@
             <thead>
             <tr>
                 <th>Заголовок новости</th>
+                <th>URL</th>
+                <th>Создан</th>
                 <th>Содержимое новости</th>
                 <th>Действия</th>
             </tr>
@@ -18,6 +20,8 @@
             {% for new in news %}
                 <tr>
                     <td>{{ new.title }}</td>
+                    <td>{{ new.slug }}</td>
+                    <td>{{ new.created }}</td>
                     <td>{{ new.text }}</td>
                     <td>
                         <a href="/news/{{ new.slug }}" class="btn btn-dark">Показать</a>

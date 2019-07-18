@@ -23,15 +23,22 @@ class News
     private $title;
 
     /**
-     * @var string
      * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
     private $slug;
+
     /**
      * @ORM\Column(type="text")
      */
     private $text;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime")
+     */
+    private $created;
 
     /**
      * @return int|null
@@ -87,5 +94,21 @@ class News
     public function setText(string $text): void
     {
         $this->text = $text;
+    }
+
+    /**
+     * @param \DateTime $created
+     */
+    public function setCreated(\DateTime $created): void
+    {
+        $this->created = $created;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCreated(): ?string
+    {
+        return $this->created->format('Y-m-d H:i:s');
     }
 }
