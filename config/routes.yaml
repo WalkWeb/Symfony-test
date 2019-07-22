@@ -1,5 +1,5 @@
-index:
-    path: /
-    controller: App\Controller\MainController::index
+#index:
+#    path: /
+#    controller: App\Controller\MainController::index
 
 

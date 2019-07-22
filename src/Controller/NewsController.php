@@ -5,7 +5,6 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\News;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -15,8 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class NewsController extends AbstractController
 {
     /**
-     * @Route("/news/create", name="news_create")
-     * @Method({"GET", "POST"})
+     * @Route("/news/create", name="news_create", methods={"GET", "POST"})
      *
      * @param Request $request
      * @return Response
@@ -55,8 +53,7 @@ class NewsController extends AbstractController
     }
 
     /**
-     * @Route("/news/edit/{slug}", name="news_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/news/edit/{slug}", name="news_edit", methods={"GET", "POST"})
      *
      * @param Request $request
      * @param string $slug
@@ -93,8 +90,7 @@ class NewsController extends AbstractController
     }
 
     /**
-     * @Route("/news/destroy/{slug}", name="news_destroy")
-     * @Method({"DELETE"})
+     * @Route("/news/destroy/{slug}", name="news_destroy", methods={"DELETE"})
      *
      * @param string $slug
      */
@@ -110,8 +106,7 @@ class NewsController extends AbstractController
     }
 
     /**
-     * @Route("/news/{slug}", name="news_show")
-     * @Method({"GET"})
+     * @Route("/news/{slug}", name="news_show", methods={"GET"})
      *
      * @param string $slug
      * @return Response
