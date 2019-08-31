@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Exp{% endblock %}
+
+{% block body %}
+    <h1>Edit Exp</h1>
+
+    {{ include('exp/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('exp_index') }}">back to list</a>
+
+    {{ include('exp/_delete_form.html.twig') }}
+{% endblock %}

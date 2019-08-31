@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Exp index{% endblock %}
+
+{% block body %}
+    <h1>Exp index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Location</th>
+                <th>DateFrom</th>
+                <th>DateTo</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for exp in exps %}
+            <tr>
+                <td>{{ exp.id }}</td>
+                <td>{{ exp.title }}</td>
+                <td>{{ exp.location }}</td>
+                <td>{{ exp.dateFrom ? exp.dateFrom|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ exp.dateTo ? exp.dateTo|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('exp_show', {'id': exp.id}) }}">show</a>
+                    <a href="{{ path('exp_edit', {'id': exp.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('exp_new') }}">Create new</a>
+{% endblock %}
