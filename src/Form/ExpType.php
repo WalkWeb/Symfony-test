@@ -26,4 +26,12 @@ class ExpType extends AbstractType
             'data_class' => Exp::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'appbundle_exp';
+    }
 }
