@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\DTO\PostDTO;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +18,9 @@ class PostController extends AbstractController
 {
     /**
      * @Route("/", name="post_index", methods={"GET"})
+     *
+     * @param PostRepository $postRepository
+     * @return Response
      */
     public function index(PostRepository $postRepository): Response
     {
@@ -27,15 +31,21 @@ class PostController extends AbstractController
 
     /**
      * @Route("/new", name="post_new", methods={"GET","POST"})
+     *
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
-        $post = new Post();
-        $form = $this->createForm(PostType::class, $post);
+        $postDto = new PostDTO();
+        $form = $this->createForm(PostType::class, $postDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            $post = $postDto->fill(new Post());
+
             $entityManager->persist($post);
             $entityManager->flush();
 
@@ -43,13 +53,16 @@ class PostController extends AbstractController
         }
 
         return $this->render('post/new.html.twig', [
-            'post' => $post,
+            'post' => $postDto,
             'form' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/{id}", name="post_show", methods={"GET"})
+     *
+     * @param Post $post
+     * @return Response
      */
     public function show(Post $post): Response
     {
@@ -60,6 +73,10 @@ class PostController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="post_edit", methods={"GET","POST"})
+     *
+     * @param Request $request
+     * @param Post $post
+     * @return Response
      */
     public function edit(Request $request, Post $post): Response
     {
@@ -80,6 +97,10 @@ class PostController extends AbstractController
 
     /**
      * @Route("/{id}", name="post_delete", methods={"DELETE"})
+     *
+     * @param Request $request
+     * @param Post $post
+     * @return Response
      */
     public function delete(Request $request, Post $post): Response
     {
