@@ -27,6 +27,12 @@ class Post
     private $text;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="post", cascade={"persist", "merge"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $category;
+
+    /**
      * @return int|null
      */
     public function getId(): ?int
@@ -64,5 +70,21 @@ class Post
     public function setText(string $text): void
     {
         $this->text = $text;
+    }
+
+    /**
+     * @return Category|null
+     */
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param Category|null $category
+     */
+    public function setCategory(?Category $category): void
+    {
+        $this->category = $category;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\DTO;
 
+use App\Entity\Category;
 use App\Entity\Post;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,6 +17,12 @@ class PostDTO
      * @Assert\NotBlank(message="This value should not be blank.", payload=null)
      */
     private $text;
+
+    /**
+     * @Assert\NotBlank(message="This value should not be blank.", payload=null)
+     * @var Category
+     */
+    private $category;
 
     /**
      * Create DTO, optionally extracting data from a model.
@@ -39,6 +46,7 @@ class PostDTO
     {
         $post->setTitle($this->title);
         $post->setText($this->text);
+        $post->setCategory($this->getCategory());
 
         return $post;
     }
@@ -53,40 +61,56 @@ class PostDTO
     {
         $this->title = $post->getTitle();
         $this->text = $post->getText();
+        $this->category = $post->getCategory();
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
     /**
-     * @param mixed $title
+     * @param string|null $title
      */
-    public function setTitle($title): void
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getText()
+    public function getText(): ?string
     {
         return $this->text;
     }
 
     /**
-     * @param mixed $text
+     * @param string|null $text
      */
-    public function setText($text): void
+    public function setText(?string $text): void
     {
         $this->text = $text;
     }
 
+    /**
+     * @return Category|null
+     */
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param Category|null $category
+     */
+    public function setCategory(?Category $category): void
+    {
+        $this->category = $category;
+    }
 }
