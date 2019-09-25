@@ -10,12 +10,12 @@ class PostDTO
     /**
      * @Assert\NotBlank(message="This value should not be blank.", payload=null)
      */
-    public $title;
+    private $title;
 
     /**
      * @Assert\NotBlank(message="This value should not be blank.", payload=null)
      */
-    public $text;
+    private $text;
 
     /**
      * Create DTO, optionally extracting data from a model.
@@ -56,4 +56,37 @@ class PostDTO
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    /**
+     * @param mixed $text
+     */
+    public function setText($text): void
+    {
+        $this->text = $text;
+    }
+
 }
