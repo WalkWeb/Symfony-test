@@ -10,6 +10,7 @@ use App\Entity\News;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Exception;
 
 class NewsController extends AbstractController
 {
@@ -18,6 +19,7 @@ class NewsController extends AbstractController
      *
      * @param Request $request
      * @return Response
+     * @throws Exception
      */
     public function create(Request $request): Response
     {
