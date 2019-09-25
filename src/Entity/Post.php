@@ -28,7 +28,7 @@ class Post
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="post", cascade={"persist", "merge"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $category;
 

@@ -30,18 +30,26 @@ class Country
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getCountry()
+    public function getCountry(): ?string
     {
         return $this->country;
     }
 
     /**
-     * @param mixed $country
+     * @param string|null $country
      */
-    public function setCountry($country): void
+    public function setCountry(?string $country): void
     {
         $this->country = $country;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function __toString(): ?string
+    {
+        return $this->country;
     }
 }
