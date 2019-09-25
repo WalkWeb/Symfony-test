@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
-use App\Entity\Author;
+use App\DTO\AuthorDTO;
+use App\Entity\Country;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,14 +15,16 @@ class AuthorType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('country')
+            ->add('country', EntityType::class, [
+                'class' => Country::class
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Author::class,
+            'data_class' => AuthorDTO::class,
         ]);
     }
 }

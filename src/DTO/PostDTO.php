@@ -10,17 +10,19 @@ class PostDTO
 {
     /**
      * @Assert\NotBlank(message="This value should not be blank.", payload=null)
+     * @var string|null
      */
     private $title;
 
     /**
      * @Assert\NotBlank(message="This value should not be blank.", payload=null)
+     * @var string|null
      */
     private $text;
 
     /**
      * @Assert\NotBlank(message="This value should not be blank.", payload=null)
-     * @var Category
+     * @var Category|null
      */
     private $category;
 

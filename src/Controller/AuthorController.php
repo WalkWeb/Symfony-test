@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\DTO\AuthorDTO;
 use App\Entity\Author;
 use App\Form\AuthorType;
 use App\Repository\AuthorRepository;
@@ -17,6 +18,8 @@ class AuthorController extends AbstractController
 {
     /**
      * @Route("/", name="author_index", methods={"GET"})
+     * @param AuthorRepository $authorRepository
+     * @return Response
      */
     public function index(AuthorRepository $authorRepository): Response
     {
@@ -27,15 +30,20 @@ class AuthorController extends AbstractController
 
     /**
      * @Route("/new", name="author_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
-        $author = new Author();
-        $form = $this->createForm(AuthorType::class, $author);
+        $authorDto = new AuthorDTO();
+        $form = $this->createForm(AuthorType::class, $authorDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            $author = $authorDto->fill(new Author());
+
             $entityManager->persist($author);
             $entityManager->flush();
 
@@ -43,13 +51,15 @@ class AuthorController extends AbstractController
         }
 
         return $this->render('author/new.html.twig', [
-            'author' => $author,
+            'author' => $authorDto,
             'form' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/{id}", name="author_show", methods={"GET"})
+     * @param Author $author
+     * @return Response
      */
     public function show(Author $author): Response
     {
@@ -60,6 +70,9 @@ class AuthorController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="author_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Author $author
+     * @return Response
      */
     public function edit(Request $request, Author $author): Response
     {
@@ -80,6 +93,9 @@ class AuthorController extends AbstractController
 
     /**
      * @Route("/{id}", name="author_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Author $author
+     * @return Response
      */
     public function delete(Request $request, Author $author): Response
     {
