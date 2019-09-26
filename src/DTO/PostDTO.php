@@ -2,6 +2,7 @@
 
 namespace App\DTO;
 
+use App\Entity\Author;
 use App\Entity\Category;
 use App\Entity\Post;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -27,6 +28,12 @@ class PostDTO
     private $category;
 
     /**
+     * @Assert\NotBlank(message="This value should not be blank.", payload=null)
+     * @var Author|null
+     */
+    private $author;
+
+    /**
      * Create DTO, optionally extracting data from a model.
      *
      * @param Post|null $post
@@ -49,6 +56,7 @@ class PostDTO
         $post->setTitle($this->title);
         $post->setText($this->text);
         $post->setCategory($this->getCategory());
+        $post->setAuthor($this->getAuthor());
 
         return $post;
     }
@@ -64,6 +72,7 @@ class PostDTO
         $this->title = $post->getTitle();
         $this->text = $post->getText();
         $this->category = $post->getCategory();
+        $this->author = $post->getAuthor();
 
         return $this;
     }
@@ -115,4 +124,23 @@ class PostDTO
     {
         $this->category = $category;
     }
+
+    /**
+     * @return Author|null
+     */
+    public function getAuthor(): ?Author
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param AuthorDTO|null $authorDto
+     */
+    public function setAuthor(?AuthorDTO $authorDto): void
+    {
+        if ($authorDto !== null) {
+            $this->author = $authorDto->fill(new Author());
+        }
+    }
+
 }

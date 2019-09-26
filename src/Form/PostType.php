@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\DTO\AuthorDTO;
 use App\DTO\PostDTO;
+use App\Entity\Author;
 use App\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -18,6 +20,9 @@ class PostType extends AbstractType
             ->add('text')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
+            ])
+            ->add('author', AuthorType::class, [
+                'label' => false,
             ])
         ;
     }

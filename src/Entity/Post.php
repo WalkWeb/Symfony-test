@@ -33,6 +33,12 @@ class Post
     private $category;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Author", inversedBy="post", cascade={"persist", "merge"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
+
+    /**
      * @return int|null
      */
     public function getId(): ?int
@@ -87,4 +93,21 @@ class Post
     {
         $this->category = $category;
     }
+
+    /**
+     * @return Author|null
+     */
+    public function getAuthor(): ?Author
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param Author|null $author
+     */
+    public function setAuthor(?Author $author): void
+    {
+        $this->author = $author;
+    }
+
 }
