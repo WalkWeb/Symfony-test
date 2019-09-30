@@ -9,13 +9,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 class AuthorDTO
 {
     /**
-     * @Assert\NotBlank(message="This value should not be blank.", payload=null)
+     * @Assert\NotBlank()
      * @var string|null
      */
     private $name;
 
     /**
-     * @Assert\NotBlank(message="This value should not be blank.", payload=null)
+     * @Assert\NotBlank()
      * @var Country|null
      */
     private $country;

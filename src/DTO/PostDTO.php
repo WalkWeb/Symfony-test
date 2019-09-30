@@ -10,25 +10,25 @@ use Symfony\Component\Validator\Constraints as Assert;
 class PostDTO
 {
     /**
-     * @Assert\NotBlank(message="This value should not be blank.", payload=null)
+     * @Assert\NotBlank()
      * @var string|null
      */
     private $title;
 
     /**
-     * @Assert\NotBlank(message="This value should not be blank.", payload=null)
+     * @Assert\NotBlank()
      * @var string|null
      */
     private $text;
 
     /**
-     * @Assert\NotBlank(message="This value should not be blank.", payload=null)
+     * @Assert\NotBlank()
      * @var Category|null
      */
     private $category;
 
     /**
-     * @Assert\NotBlank(message="This value should not be blank.", payload=null)
+     * @Assert\NotBlank()
      * @var Author|null
      */
     private $author;
@@ -43,38 +43,6 @@ class PostDTO
         if ($post instanceof Post) {
             $this->extract($post);
         }
-    }
-
-    /**
-     * Fill entity with data from the DTO.
-     *
-     * @param Post $post
-     * @return Post
-     */
-    public function fill(Post $post): Post
-    {
-        $post->setTitle($this->title);
-        $post->setText($this->text);
-        $post->setCategory($this->getCategory());
-        $post->setAuthor($this->getAuthor());
-
-        return $post;
-    }
-
-    /**
-     * Extract data from entity into the DTO.
-     *
-     * @param Post $post
-     * @return $this
-     */
-    public function extract(Post $post): self
-    {
-        $this->title = $post->getTitle();
-        $this->text = $post->getText();
-        $this->category = $post->getCategory();
-        $this->author = $post->getAuthor();
-
-        return $this;
     }
 
     /**
@@ -141,6 +109,34 @@ class PostDTO
         if ($authorDto !== null) {
             $this->author = $authorDto->fill(new Author());
         }
+    }
+
+    /**
+     * @param Post $post
+     * @return Post
+     */
+    public function fill(Post $post): Post
+    {
+        $post->setTitle($this->title);
+        $post->setText($this->text);
+        $post->setCategory($this->getCategory());
+        $post->setAuthor($this->getAuthor());
+
+        return $post;
+    }
+
+    /**
+     * @param Post $post
+     * @return $this
+     */
+    public function extract(Post $post): self
+    {
+        $this->title = $post->getTitle();
+        $this->text = $post->getText();
+        $this->category = $post->getCategory();
+        $this->author = $post->getAuthor();
+
+        return $this;
     }
 
 }
