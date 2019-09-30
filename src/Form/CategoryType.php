@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\DTO\CategoryDTO;
-use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,6 +13,7 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('category')
+            ->add('id')
         ;
     }
 

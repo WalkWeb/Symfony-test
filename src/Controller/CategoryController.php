@@ -80,17 +80,25 @@ class CategoryController extends AbstractController
      */
     public function edit(Request $request, Category $category): Response
     {
-        $form = $this->createForm(CategoryType::class, $category);
+        $categoryDTO = new CategoryDTO();
+
+        $categoryDTO = $categoryDTO->extract($category);
+
+        $form = $this->createForm(CategoryType::class, $categoryDTO);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+
+            $category = $categoryDTO->fill($category);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($category);
+            $entityManager->flush();
 
             return $this->redirectToRoute('category_index');
         }
 
         return $this->render('category/edit.html.twig', [
-            'category' => $category,
+            'category' => $categoryDTO,
             'form' => $form->createView(),
         ]);
     }
