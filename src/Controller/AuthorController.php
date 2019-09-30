@@ -18,8 +18,6 @@ class AuthorController extends AbstractController
 {
     /**
      * @Route("/", name="author_index", methods={"GET"})
-     * @param AuthorRepository $authorRepository
-     * @return Response
      */
     public function index(AuthorRepository $authorRepository): Response
     {
@@ -30,20 +28,16 @@ class AuthorController extends AbstractController
 
     /**
      * @Route("/new", name="author_new", methods={"GET","POST"})
-     * @param Request $request
-     * @return Response
      */
     public function new(Request $request): Response
     {
-        $authorDto = new AuthorDTO();
-        $form = $this->createForm(AuthorType::class, $authorDto);
+        $authorDTO = new AuthorDTO();
+        $form = $this->createForm(AuthorType::class, $authorDTO);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-
-            $author = $authorDto->fill(new Author());
-
+            $author = $authorDTO->fill(new Author());
             $entityManager->persist($author);
             $entityManager->flush();
 
@@ -51,15 +45,13 @@ class AuthorController extends AbstractController
         }
 
         return $this->render('author/new.html.twig', [
-            'author' => $authorDto,
+            'author' => $authorDTO,
             'form' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/{id}", name="author_show", methods={"GET"})
-     * @param Author $author
-     * @return Response
      */
     public function show(Author $author): Response
     {
@@ -70,17 +62,20 @@ class AuthorController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="author_edit", methods={"GET","POST"})
-     * @param Request $request
-     * @param Author $author
-     * @return Response
      */
     public function edit(Request $request, Author $author): Response
     {
-        $form = $this->createForm(AuthorType::class, $author);
+        $authorDTO = new AuthorDTO();
+        $authorDTO->extract($author);
+        $form = $this->createForm(AuthorType::class, $authorDTO);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+
+            $author = $authorDTO->fill($author);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($author);
+            $entityManager->flush();
 
             return $this->redirectToRoute('author_index');
         }
@@ -93,9 +88,6 @@ class AuthorController extends AbstractController
 
     /**
      * @Route("/{id}", name="author_delete", methods={"DELETE"})
-     * @param Request $request
-     * @param Author $author
-     * @return Response
      */
     public function delete(Request $request, Author $author): Response
     {

@@ -60,8 +60,8 @@ class AuthorDTO
      */
     public function fill(Author $author): Author
     {
-        $author->setName($this->name);
-        $author->setCountry($this->country);
+        $author->setName($this->getName());
+        $author->setCountry($this->getCountry());
 
         return $author;
     }
@@ -74,8 +74,8 @@ class AuthorDTO
      */
     public function extract(Author $author): self
     {
-        $this->name = $author->getName();
-        $this->country = $author->getCountry();
+        $this->setName($author->getName());
+        $this->setCountry($author->getCountry());
 
         return $this;
     }

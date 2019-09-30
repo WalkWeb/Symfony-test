@@ -16,7 +16,7 @@ class AuthorType extends AbstractType
         $builder
             ->add('name')
             ->add('country', EntityType::class, [
-                'class' => Country::class
+                'class' => Country::class,
             ])
         ;
     }
