@@ -22,13 +22,13 @@ class PostDTO
     private $text;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\Valid()
      * @var Category|null
      */
     private $category;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\Valid()
      * @var Author|null
      */
     private $author;
