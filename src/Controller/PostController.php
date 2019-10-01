@@ -80,7 +80,9 @@ class PostController extends AbstractController
      */
     public function edit(Request $request, Post $post): Response
     {
-        $form = $this->createForm(PostType::class, $post);
+        $postDTO = new PostDTO();
+        $postDTO->extract($post);
+        $form = $this->createForm(PostType::class, $postDTO);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
