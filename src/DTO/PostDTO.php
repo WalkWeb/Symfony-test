@@ -34,18 +34,6 @@ class PostDTO
     private $author;
 
     /**
-     * Create DTO, optionally extracting data from a model.
-     *
-     * @param Post|null $post
-     */
-    public function __construct(?Post $post = null)
-    {
-        if ($post instanceof Post) {
-            $this->extract($post);
-        }
-    }
-
-    /**
      * @return string|null
      */
     public function getTitle(): ?string
