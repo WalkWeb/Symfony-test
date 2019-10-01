@@ -53,8 +53,6 @@ class AuthorDTO
     }
 
     /**
-     * Fill entity with data from the DTO.
-     *
      * @param Author $author
      * @return Author
      */
@@ -67,8 +65,6 @@ class AuthorDTO
     }
 
     /**
-     * Extract data from entity into the DTO.
-     *
      * @param Author $author
      * @return $this
      */

@@ -29,7 +29,7 @@ class PostDTO
 
     /**
      * @Assert\Valid()
-     * @var Author|null
+     * @var AuthorDTO|null
      */
     private $author;
 
@@ -98,17 +98,19 @@ class PostDTO
      */
     public function getAuthor(): ?Author
     {
-        return $this->author;
+        if ($this->author !== null) {
+            return $this->author->fill(new Author());
+        }
+
+        return null;
     }
 
     /**
-     * @param AuthorDTO|null $authorDto
+     * @param AuthorDTO|null $authorDTO
      */
-    public function setAuthor(?AuthorDTO $authorDto): void
+    public function setAuthor(?AuthorDTO $authorDTO): void
     {
-        if ($authorDto !== null) {
-            $this->author = $authorDto->fill(new Author());
-        }
+        $this->author = $authorDTO;
     }
 
     /**
@@ -131,10 +133,13 @@ class PostDTO
      */
     public function extract(Post $post): self
     {
-        $this->title = $post->getTitle();
-        $this->text = $post->getText();
-        $this->category = $post->getCategory();
-        $this->author = $post->getAuthor();
+        $this->setTitle($post->getTitle());
+        $this->setText($post->getText());
+        $this->setCategory($post->getCategory());
+
+        $authorDTO = new AuthorDTO();
+        $authorDTO->extract($post->getAuthor());
+        $this->setAuthor($authorDTO);
 
         return $this;
     }
