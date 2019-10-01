@@ -86,6 +86,13 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $post = $postDTO->fill($post);
+            $entityManager->persist($post);
+            $entityManager->flush();
+
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('post_index');

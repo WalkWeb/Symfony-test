@@ -82,15 +82,11 @@ class PostDTO
     }
 
     /**
-     * @return Author|null
+     * @return AuthorDTO|null
      */
-    public function getAuthor(): ?Author
+    public function getAuthor(): ?AuthorDTO
     {
-        if ($this->author !== null) {
-            return $this->author->fill(new Author());
-        }
-
-        return null;
+        return $this->author;
     }
 
     /**
@@ -110,7 +106,14 @@ class PostDTO
         $post->setTitle($this->title);
         $post->setText($this->text);
         $post->setCategory($this->getCategory());
-        $post->setAuthor($this->getAuthor());
+
+        $author = $post->getAuthor() ?? new Author();
+        $authorDTO = $this->getAuthor();
+        if ($authorDTO !== null) {
+            $author = $authorDTO->fill($author);
+        }
+
+        $post->setAuthor($author);
 
         return $post;
     }
