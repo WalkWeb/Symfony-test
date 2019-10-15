@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\DTO\PostDTO;
+use App\Event\PostCreateEvent;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +18,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PostController extends AbstractController
 {
+    public function eventExample(EventDispatcherInterface $eventDispatcher)
+    {
+        $post = new Post();
+        $postEvent = new PostCreateEvent($post);
+        $eventDispatcher->dispatch($postEvent);
+
+        die('123');
+    }
+    
     /**
      * @Route("/", name="post_index", methods={"GET"})
      *
@@ -31,11 +42,11 @@ class PostController extends AbstractController
 
     /**
      * @Route("/new", name="post_new", methods={"GET","POST"})
-     *
      * @param Request $request
+     * @param EventDispatcherInterface $eventDispatcher
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, EventDispatcherInterface $eventDispatcher): Response
     {
         $postDto = new PostDTO();
         $form = $this->createForm(PostType::class, $postDto);
@@ -48,6 +59,11 @@ class PostController extends AbstractController
 
             $entityManager->persist($post);
             $entityManager->flush();
+
+            $event = new PostCreateEvent($post);
+            $eventDispatcher->dispatch($event);
+
+
 
             return $this->redirectToRoute('post_index');
         }

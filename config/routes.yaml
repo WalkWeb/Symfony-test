@@ -2,4 +2,6 @@
 #    path: /
 #    controller: App\Controller\MainController::index
 
-
+event_example:
+  path: event_example
+  controller: App\Controller\PostController::eventExample
