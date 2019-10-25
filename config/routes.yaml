@@ -5,3 +5,7 @@
 event_example:
   path: event_example
   controller: App\Controller\PostController::eventExample
+
+map_custom:
+  path: map
+  controller: MapBundle\Controller\MapController::index
