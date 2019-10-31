@@ -52,9 +52,18 @@ class AuthorController extends AbstractController
 
     /**
      * @Route("/{id}", name="author_show", methods={"GET"})
+     * @param Request $request
+     * @param AuthorRepository $authorRepository
+     * @return Response
      */
-    public function show(Author $author): Response
+    public function show(Request $request, AuthorRepository $authorRepository): Response
     {
+        $author = $authorRepository->findOneBy(['id' => $request->get('id')]);
+
+        if (!$author) {
+            return $this->render('author/404.html.twig');
+        }
+
         return $this->render('author/show.html.twig', [
             'author' => $author,
         ]);
