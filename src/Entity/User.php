@@ -2,108 +2,114 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
-class User
+class User implements UserInterface
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="fullname", type="string", length=255)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $fullname;
+    private $email;
 
     /**
-     * @ORM\OneToMany(targetEntity="Exp", mappedBy="user", cascade={"persist"})
+     * @ORM\Column(type="json")
      */
-    private $exp;
+    private $roles = [];
 
     /**
-     * Constructor
+     * @var string The hashed password
+     * @ORM\Column(type="string")
      */
-    public function __construct()
-    {
-        $this->exp = new ArrayCollection();
-    }
+    private $password;
 
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getFullname(): ?string
+    public function getEmail(): ?string
     {
-        return $this->fullname;
+        return $this->email;
     }
 
-    /**
-     * @param string $fullname
-     */
-    public function setFullname(string $fullname): void
+    public function setEmail(string $email): self
     {
-        $this->fullname = $fullname;
-    }
+        $this->email = $email;
 
-    /**
-     * Add exp
-     *
-     * @param Exp $exp
-     *
-     * @return User
-     */
-    public function addExp(Exp $exp)
-    {
-        $this->exp[] = $exp;
-        // setting the current user to the $exp,
-        // adapt this to whatever you are trying to achieve
-        $exp->setUser($this);
         return $this;
     }
 
     /**
-     * Remove exp
+     * A visual identifier that represents this user.
      *
-     * @param Exp $exp
+     * @see UserInterface
      */
-    public function removeExp(Exp $exp)
+    public function getUsername(): string
     {
-        $this->exp->removeElement($exp);
+        return (string) $this->email;
     }
 
     /**
-     * Get exp
-     *
-     * @return \Doctrine\Common\Collections\Collection
+     * @see UserInterface
      */
-    public function getExp()
+    public function getRoles(): array
     {
-        return $this->exp;
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
-    public function __toString(): ?string
+    public function setRoles(array $roles): self
     {
-        return $this->fullname;
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }
