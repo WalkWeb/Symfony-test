@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Country;
 use App\Form\CountryType;
 use App\Repository\CountryRepository;
+use App\Security\Voters\CountryAccess;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -65,6 +66,8 @@ class CountryController extends AbstractController
     {
         $form = $this->createForm(CountryType::class, $country);
         $form->handleRequest($request);
+
+        $this->denyAccessUnlessGranted(CountryAccess::EDIT, $country);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
